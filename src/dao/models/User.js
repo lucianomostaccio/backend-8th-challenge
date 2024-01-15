@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import { randomUUID } from "node:crypto"
+import { DEFAULT_USER_AVATAR_PATH } from '../../config/config.js'
 
 const collection = 'users'
 
@@ -13,6 +14,7 @@ const schema = new mongoose.Schema({
   last_name: { type: String, default: '(not specified)' },
   // age: { type: Number, required: true }
   age : { type: Number, default: '(not specified)' },
+  profile_picture: { type: String, default: DEFAULT_USER_AVATAR_PATH },
 }, {
   strict: 'throw',
   versionKey: false

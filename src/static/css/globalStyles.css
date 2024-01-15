@@ -163,11 +163,18 @@ input{
   cursor: not-allowed;
 }
 
+#profile-pic{
+  max-width: 15vw;
+  max-height: 20h;
+  display: block;
+  margin-top: 1rem;
+}
+
 #products-edit{
   align-content: flex-start;
 }
 
-footer {
+#footer {
   background-color: black;
   position: absolute;
   bottom: 0;

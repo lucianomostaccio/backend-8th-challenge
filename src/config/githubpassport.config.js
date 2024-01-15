@@ -24,6 +24,7 @@ const initializeGithubPassport = () => {
             email: profile._json.email,
             age: '', //Ask user once logged in
             password: '', //Ask user once logged in
+            profile_picture: profile._json.avatar_url,
           };
 
           let result = await usersManager.create(newUser);

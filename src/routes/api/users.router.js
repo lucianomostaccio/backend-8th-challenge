@@ -4,15 +4,22 @@ import { Router } from "express";
 import { usersManager } from "../../dao/models/User.js";
 import { createHash } from "../../utils/hashing.js";
 import { onlyLoggedInRest } from "../../middlewares/authorization.js";
+import { upload } from "../../middlewares/multer.js";
+import { DEFAULT_USER_AVATAR_PATH } from "../../config/config.js";
+import path from "path";
 
 // Create the router
 export const usersRouter = Router();
 
 // Handle user registration (POST /api/users/)
-usersRouter.post("/", async (req, res) => {
+usersRouter.post("/", upload.single('profile_picture'), async (req, res) => {
   try {
     // Hash the password
     req.body.password = createHash(req.body.password);
+
+    console.log(req.file)
+    // Set the profile picture path based on the uploaded file
+    req.body.profile_picture = req.file ? path.join('img', req.file.filename) : DEFAULT_USER_AVATAR_PATH;
 
     // Create a new user
     const user = await usersManager.create(req.body);
