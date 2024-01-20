@@ -49,7 +49,7 @@ p {
   margin-bottom: 10px;
 }
 
-#welcomeMessage{
+#welcomeMessage {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,28 +57,30 @@ p {
   color: rgb(0, 0, 143);
 }
 
-.pageTitle{
+.pageTitle {
   text-align: center;
   padding: 1rem;
   color: blue;
 }
 
-.userProfile{
+.userProfile {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: center;
   margin-top: 0.5rem;
   margin-bottom: 2rem;
   width: 100%;
+  align-content: center;
+  align-items: flex-start;
 }
 
-.productTitle, .profileItem {
+.productTitle,
+.profileItem {
   padding: 0.5rem;
 }
 
-#login-title{
+#login-title {
   text-align: left;
   margin: 0;
   padding-left: 0;
@@ -96,7 +98,7 @@ p {
   background-color: #c82333;
 }
 
-.greenButton{
+.greenButton {
   background-color: #28a745;
   color: #fff;
   padding: 10px 15px;
@@ -109,7 +111,7 @@ p {
   background-color: #218838;
 }
 
-#greenButtonGithub{
+#greenButtonGithub {
   background-color: #28a745;
   color: #fff;
   padding: 10px 15px;
@@ -121,16 +123,16 @@ p {
   background-color: #218838;
 }
 
-.formButton{
+.formButton {
   display: flex;
   justify-content: center;
 }
 
-#loginForm{
+#loginForm {
   margin-bottom: 1rem;
 }
 
-#register-form{
+#register-form {
   margin-top: 1rem;
 }
 
@@ -148,7 +150,7 @@ label {
   margin-left: 5px;
 }
 
-input{
+input {
   width: 30vw;
   padding: 10px;
   border: 1px solid #ccc;
@@ -159,18 +161,18 @@ input{
   color: red;
 }
 
-#inputEmail{
+#inputEmail {
   cursor: not-allowed;
 }
 
-#profile-pic{
-  max-width: 15vw;
-  max-height: 20h;
+.profile_picture {
+  max-width: 10vw;
+  max-height: 15vh;
   display: block;
   margin-top: 1rem;
 }
 
-#products-edit{
+#products-edit {
   align-content: flex-start;
 }
 

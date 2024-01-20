@@ -1,4 +1,4 @@
-<h1>Edit your profile:</h1>
+<h1 class="pageTitle" id="profileEdit">Edit your profile</h1>
 <section>
   <article class="profileSection">
     <h1>current profile</h1>
@@ -9,11 +9,13 @@
       <li class="profileItem">Email: {{email}}</li>
       <li class="profileItem">Age: {{age}}</li>
       <li class="profileItem">Role: {{role}}</li>
+      <li class="profileItem">Profile picture:
+        <img class="profile_picture" src="{{fullImageUrl}}" /></li>
     </ul>
   </article>
   <article>
     <h1>new profile data</h1>
-    <form id="form-edit-profile">
+    <form id="form-edit-profile" enctype="multipart/form-data">
       <div class="form-group">
         <label for="first_name">First name</label>
         <input
@@ -33,7 +35,9 @@
         /><br />
       </div>
       <div class="form-group">
-        <label for="email">Email <span><small id="emailNotEdit"> *You can't edit your email*</small></span></label>
+        <label for="email">Email
+          <span><small id="emailNotEdit">
+              *You can't edit your email*</small></span></label>
         <input id="inputEmail" readonly /><br />
       </div>
       <div class="form-group">
@@ -43,8 +47,21 @@
           name="age"
           type="number"
           placeholder="input your age"
-          min="0" max="99"
+          min="0"
+          max="99"
         /><br />
+      </div>
+      <div class="form-group">
+        <label for="profile_picture">Profile Picture:</label>
+        <input
+          name="profile_picture"
+          type="file"
+          class="profile_picture"
+          id="newProfilePicture"
+          onchange="previewImage()"
+        />
+        <div id="imagePreview" class="image-preview"></div>
+        <br />
       </div>
       <button class="greenButton" type="submit">Save your changes</button>
     </form>
@@ -53,4 +70,4 @@
 </section>
 
 <script src="/js/editProfile.js"></script>
-<link rel="stylesheet" href="/css/editProfile.css"> 
+<link rel="stylesheet" href="/css/editProfile.css" />

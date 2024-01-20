@@ -6,9 +6,8 @@ formRegister?.addEventListener("submit", async (event) => {
 
   const response = await fetch("/api/users", {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
     // @ts-ignore
-    body: new URLSearchParams(new FormData(formRegister)),
+    body: new FormData(formRegister),
   });
 
   if (response.status === 201) {
@@ -24,9 +23,9 @@ formRegister?.addEventListener("submit", async (event) => {
 });
 
 function previewImage() {
-  let preview = document.getElementById("imagePreview");
-  let fileInput = document.getElementById("profile_picture");
-  let footer = document.getElementById("footer");
+  let preview = document.querySelector("#imagePreview");
+  let fileInput = document.querySelector(".profile_picture");
+  let footer = document.querySelector("#footer");
   // @ts-ignore
   footer.style.position = "static";
   // @ts-ignore
@@ -39,7 +38,7 @@ function previewImage() {
   reader.onloadend = function () {
     // @ts-ignore
     preview.innerHTML =
-      '<img id="profile-pic" src="' + reader.result + '" alt="Preview">';
+      '<img class="profile_picture" src="' + reader.result + '" alt="Preview">';
   };
 
   if (file) {

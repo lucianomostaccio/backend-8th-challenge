@@ -4,23 +4,23 @@ import { Router } from "express";
 import { usersManager } from "../../dao/models/User.js";
 import { createHash } from "../../utils/hashing.js";
 import { onlyLoggedInRest } from "../../middlewares/authorization.js";
-import { upload } from "../../middlewares/multer.js";
-import { DEFAULT_USER_AVATAR_PATH } from "../../config/config.js";
-import path from "path";
+import { extractFile } from "../../middlewares/multer.js";
 
 // Create the router
 export const usersRouter = Router();
 
 // Handle user registration (POST /api/users/)
-usersRouter.post("/", upload.single('profile_picture'), async (req, res) => {
+usersRouter.post("/", extractFile("profile_picture"), async (req, res) => {
+  //put exact name assigned in form to picture field
   try {
     // Hash the password
     req.body.password = createHash(req.body.password);
 
-    console.log(req.file)
+    console.log(req.file);
     // Set the profile picture path based on the uploaded file
-    req.body.profile_picture = req.file ? path.join('img', req.file.filename) : DEFAULT_USER_AVATAR_PATH;
-
+    if (req.file) {
+      req.body.profile_picture = req.file.path;
+    }
     // Create a new user
     const user = await usersManager.create(req.body);
 
@@ -35,12 +35,14 @@ usersRouter.post("/", upload.single('profile_picture'), async (req, res) => {
   }
 });
 
-usersRouter.get('/current', onlyLoggedInRest, async (req, res) => {
+usersRouter.get("/current", onlyLoggedInRest, async (req, res) => {
   // @ts-ignore
-  const usuario = await usersManager.findOne({ email: req['user'].email }, { password: 0 }).lean()
-  res.json({ status: 'success', payload: usuario })
-})
-
+  const usuario = await usersManager
+    // @ts-ignore
+    .findOne({ email: req["user"].email }, { password: 0 })
+    .lean();
+  res.json({ status: "success", payload: usuario });
+});
 
 // Update user password
 usersRouter.put("/resetpass", async function (req, res) {
@@ -63,7 +65,11 @@ usersRouter.put("/resetpass", async function (req, res) {
     }
 
     // Successful response
-    res.json({ status: "success", payload: updatedUser, message: "password updated" });
+    res.json({
+      status: "success",
+      payload: updatedUser,
+      message: "password updated",
+    });
   } catch (error) {
     // Handle errors
     res.status(400).json({ status: "error", message: error.message });
@@ -71,36 +77,46 @@ usersRouter.put("/resetpass", async function (req, res) {
 });
 
 // Update user profile information (PUT /api/users/)
-usersRouter.put("/edit", async function (req, res) {
-  try {
-    // Update user information
-    const updatedUser = await usersManager.findOneAndUpdate(
-      { email: req.body.email },
-      {
-        $set: {
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          age: req.body.age,
-        },
-      },
-      { new: true }
-    );
+usersRouter.put(
+  "/edit",
+  extractFile("profile_picture"),
+  async function (req, res) {
+    try {
+      // Update user information
+      const updateFields = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        age: req.body.age,
+      };
 
-    // Handle case where user does not exist
-    if (!updatedUser) {
-      return res
-        .status(404)
-        .json({ status: "error", message: "user not found" });
+      if (req.file) {
+        updateFields.profile_picture = req.file.path;
+      }
+
+      const updatedUser = await usersManager.findOneAndUpdate(
+        { email: req.body.email },
+        { $set: updateFields },
+        { new: true }
+      );
+
+      console.log(req.body.profile_picture);
+
+      // Handle case where user does not exist
+      if (!updatedUser) {
+        return res
+          .status(404)
+          .json({ status: "error", message: "user not found" });
+      }
+
+      // Successful response
+      res.json({
+        status: "success",
+        payload: updatedUser,
+        message: "user information updated",
+      });
+    } catch (error) {
+      // Handle errors
+      res.status(400).json({ status: "error", message: error.message });
     }
-
-    // Successful response
-    res.json({
-      status: "success",
-      payload: updatedUser,
-      message: "user information updated",
-    });
-  } catch (error) {
-    // Handle errors
-    res.status(400).json({ status: "error", message: error.message });
   }
-});
+);

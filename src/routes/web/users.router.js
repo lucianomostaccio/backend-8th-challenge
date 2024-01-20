@@ -26,6 +26,19 @@ webUsersRouter.get("/profile", onlyLoggedInWeb, async (req, res) => {
 
       // @ts-ignore
       updatedUser.role = (updatedUser.email === ADMIN_EMAIL && updatedUser.password === ADMIN_PASSWORD) ? "admin" : "user";
+      
+      // @ts-ignore
+      // Update the profile picture path to use forward slashes instead of backslashes
+      const normalizedImagePath = updatedUser.profile_picture.replace(/\\/g, '/');
+
+      // Generate complete url for profile image and remove "src/static/" from it
+      // @ts-ignore
+      updatedUser.fullImageUrl = `http://localhost:8080/${normalizedImagePath.replace('src/static/', '')}`;
+
+      // @ts-ignore
+      console.log('Image path:', updatedUser.fullImageUrl);
+
+
   
       // Update the session data with the latest user information
       req.session["user"] = updatedUser;
@@ -41,7 +54,7 @@ webUsersRouter.get("/profile", onlyLoggedInWeb, async (req, res) => {
       console.error("Error fetching updated user data:", error);
       res.status(500).render("error.handlebars", { pageTitle: "Error" });
     }
-  });
+});
   
 
 webUsersRouter.get("/edit", onlyLoggedInWeb, (req, res) => {

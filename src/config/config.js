@@ -8,4 +8,4 @@ export const GITHUB_APP_ID = 769071;
 export const GITHUB_CLIENT_ID = "Iv1.36975a664411751f";
 export const GITHUB_CLIENT_SECRET = "f6c3180e5069eac64dd6378c42f15c477175252a";
 export const GITHUB_CALLBACK_URL = "http://localhost:8080/api/sessions/githubcallback";
-export const DEFAULT_USER_AVATAR_PATH = './static/imgs/default-user.webp'
+export const DEFAULT_USER_AVATAR_PATH = './imgs/profile.jpg'

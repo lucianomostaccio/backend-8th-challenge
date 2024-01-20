@@ -7,12 +7,9 @@ const collection = 'users'
 const schema = new mongoose.Schema({
   _id: { type: String, default: randomUUID },
   email: { type: String, unique: true, required: true },
-  // password: { type: String, required: true },
   password : { type: String, default: '(not applicable)' },
   first_name: { type: String, required: true },
-  // last_name: { type: String, required: true },
   last_name: { type: String, default: '(not specified)' },
-  // age: { type: Number, required: true }
   age : { type: Number, default: '(not specified)' },
   profile_picture: { type: String, default: DEFAULT_USER_AVATAR_PATH },
 }, {

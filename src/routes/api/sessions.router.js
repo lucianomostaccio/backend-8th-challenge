@@ -8,46 +8,6 @@ import { onlyLoggedInRest } from "../../middlewares/authorization.js";
 
 export const sessionsRouter = Router();
 
-// MANUAL AUTHENTICATION:
-// sessionsRouter.post("/", async (req, res) => {
-//   const password = req.body.password;
-//   const user = await usersManager.findOne({ email: req.body.email });
-
-//   //console.log(user, password) for debugging only
-
-//   if (!user) {
-//     return res.status(401).json({
-//       status: "error",
-//       message: "login failed",
-//     });
-//   }
-//   if (!isValidPassword(password, user.password)) {
-//     return res.status(401).json({
-//       status: "error",
-//       message: "login failed",
-//     });
-//   }
-
-//   req.session["user"] = {
-//     first_name: user.first_name,
-//     last_name: user.last_name,
-//     email: user.email,
-//     age: user.age,
-//   };
-
-//   if (user.email === ADMIN_EMAIL && user.password === ADMIN_PASSWORD) {
-//     req.session["user"].rol = "admin";
-//   } else {
-//     req.session["user"].rol = "user";
-//   }
-
-//   // Redirección directa a la vista de productos
-//   res.status(201).json({
-//     status: "success",
-//     payload: req.session["user"],
-//   });
-// });
-
 sessionsRouter.get("/github", passport.authenticate("github",{scope: ['user:email']}),async (req, res) => {});
 
 sessionsRouter.get("/githubcallback", passport.authenticate("github", { 

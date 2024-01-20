@@ -12,15 +12,11 @@ const initializePassport = () => {
       async (username, password, done) => {
         try {
           const user = await usersManager.findOne({ email: username });
-          // Log statements for debugging
-          // console.log("Entered Password:", password);
-          // console.log(user);
           if (!user) {
             console.log("User does not exist");
             return done(null, false, { message: "User does not exist" });
           }
           if (!isValidPassword(password, user.password)) {
-            // console.log("Invalid Password");
             return done(null, false);
           }
           return done(null, user);
